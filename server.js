@@ -25,7 +25,7 @@ vk.longpoll.on('message',(msg)=>{
         return;
     }
     if(msg.text=="Htu translation?"){
-        msg.send("Example` Tree (MEANS) Дерево - to insert the word.\nExample` Tree (TRANSLATE)-for translation.");
+        msg.send("Example` Tree (MEANS) Дерево - to insert the word.\nExample`(TRANSLATE) Tree-for translation.");
     }
     let mess=msg.text.split(" ");
     let mean={eng:mess[0],rus:mess[2]};
