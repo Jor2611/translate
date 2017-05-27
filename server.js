@@ -41,7 +41,7 @@ vk.longpoll.on('message',(msg)=>{
                 console.log(err)
             } else {
                 // console.log(JSON.stringify(res,null, 2));
-                console.log(res.languageDetections);
+            //    console.log(res.languageDetections);
                 let langDetect = res.languageDetections;
                 const language = langDetect.map((x) => {
                     return x.language;
@@ -51,15 +51,13 @@ vk.longpoll.on('message',(msg)=>{
 
                    mongoReq.set(mean,(err,data)=>{
                        if(err) console.error(err.stack);
-                       console.log("qcela");
+                       console.log();
                    });
                }
             }
         });
     }else if(mess[0]=='(TRANSLATE)' && firstWord.test(mess[1]) && mess.length==2){
-        mongoReq.get(mess[1],(err,data)=>{
-            msg.send(data);
-        });
+        msg.send(mongoReq.get(mess[1]).rus);
     } else if( mess.indexOf('(MEANS)')!==-1 || mess.indexOf('(TRANSLATE)')!==-1){
         msg.send("TRANSLATOR:::If want to know how to use translator type 'Htu translation?'");
     }
