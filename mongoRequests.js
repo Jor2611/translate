@@ -11,13 +11,20 @@ const mongo= {
              console.log(dat);
         });
     },
-    get:(data)=>{
-        model.findOne({eng:data},"rus", {lean:true},(err,doc)=>{
-            if(err) consolee.error(err.stack);
-            console.log(doc);
-            return doc;
+    get:(data, next)=>{
+        model.findOne({eng:data},"rus",{lean:true},(err,doc)=>{
+            if(err) return console.error(err.stack);
+            next(null,doc);
         });
 
+    },
+    getall:(data,next)=>{
+        model.find({eng:data},"rus",{lean:true},(err,doc)=>{
+           if(err) return console.errror(err.stack);
+           console.log(doc);
+
+           next(null,doc);
+        });
     }
 };
 module.exports=mongo;

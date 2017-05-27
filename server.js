@@ -25,7 +25,7 @@ vk.longpoll.on('message',(msg)=>{
         return;
     }
     if(msg.text=="Htu translation?"){
-        msg.send("Example` Tree (MEANS) Дерево - to insert the word.\nExample`(TRANSLATE) Tree-for translation.");
+        msg.send("Example` Tree add Дерево - to insert the word.\nExample`get Tree-for translation.");
     }
     let mess=msg.text.split(" ");
     let mean={eng:mess[0],rus:mess[2]};
@@ -34,7 +34,7 @@ vk.longpoll.on('message',(msg)=>{
     let content=mess[2];
     api.parameters.content=content;
 
-    if(firstWord.test(mess[0]) && mess[1]=="(MEANS)" && mess.length==3) {
+    if(firstWord.test(mess[0]) && "add"===mess[1] && mess.length===3) {
 
         api.rosette(endpoint, function (err, res) {
             if (err) {
@@ -50,15 +50,27 @@ vk.longpoll.on('message',(msg)=>{
                if( language.indexOf('rus') !== -1 && mess[2].search(/[A-Za-z0-9]/)==-1){
 
                    mongoReq.set(mean,(err,data)=>{
-                       if(err) console.error(err.stack);
-                       console.log();
+                       if(err) {console.error(err.stack),
+                       msg.send("Noric porci");}
+
                    });
                }
             }
         });
-    }else if(mess[0]=='(TRANSLATE)' && firstWord.test(mess[1]) && mess.length==2){
-        msg.send(mongoReq.get(mess[1]).rus);
-    } else if( mess.indexOf('(MEANS)')!==-1 || mess.indexOf('(TRANSLATE)')!==-1){
+    }else if('get'=== mess[0]&& firstWord.test(mess[1]) && mess.length===2){
+        mongoReq.get(mess[1],(err, docs)=>{
+            if(err) return console.error(err.stack);
+            console.log(docs);
+            msg.send(docs.rus);
+        });
+
+    }else if('getall'===mess[0] && firstWord.test(mess[1]) && mess.length===2){
+        mongoReq.getall(mess[1],(err, docs)=>{
+            if(err) return console.error(err.stack);
+            // console.log(docs);
+            // msg.send(docs.rus);
+        });
+    } else if( mess.indexOf('add')!==-1 || mess.indexOf('get')!==-1){
         msg.send("TRANSLATOR:::If want to know how to use translator type 'Htu translation?'");
     }
 });
