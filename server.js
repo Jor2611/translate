@@ -25,7 +25,7 @@ vk.longpoll.on('message',(msg)=>{
         return;
     }
     if(msg.text=="Htu translation?"){
-        msg.send("Example` Tree add Дерево - to insert the word.\nExample`get Tree-for translation.");
+        msg.send("Example` Tree add Дерево - to insert the word.\nExample`get Tree-for translation\nExample`getAll - to findout all words in db");
     }
     let mess=msg.text.split(" ");
     let mean={eng:mess[0],rus:mess[2]};
@@ -64,11 +64,10 @@ vk.longpoll.on('message',(msg)=>{
             msg.send(docs.rus);
         });
 
-    }else if('getall'===mess[0] && firstWord.test(mess[1]) && mess.length===2){
-        mongoReq.getall(mess[1],(err, docs)=>{
+    }else if('getAll'===mess[0]){
+        mongoReq.getall((err, docs)=>{
             if(err) return console.error(err.stack);
-            // console.log(docs);
-            // msg.send(docs.rus);
+            msg.send(docs+"");
         });
     } else if( mess.indexOf('add')!==-1 || mess.indexOf('get')!==-1){
         msg.send("TRANSLATOR:::If want to know how to use translator type 'Htu translation?'");
